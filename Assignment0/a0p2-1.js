@@ -2,6 +2,8 @@
  *
  * NOTE: Figure out what to do with the API token situation before submission.
  * 
+ * TODO: Make sure the transaction units make sense before submission.
+ * 
  * Author: D
  */
 
