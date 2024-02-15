@@ -9,6 +9,9 @@ require("dotenv").config();    // hide dat token 🪙
 async function getEthBalance(wallet) {
     /* Get the latest current ETH balance of the given wallet */
     try {
+        if (!process.env.ETHERSCAN_API_TOKEN) {    // don't forget your 🔑
+            throw new Error("You forgot to set your API token.");
+        }
         const currentDate = new Date();
         const walletData = await axios.get('https://api.etherscan.io/api' +
                 '?module=account' + 
