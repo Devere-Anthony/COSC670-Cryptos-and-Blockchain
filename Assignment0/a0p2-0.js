@@ -18,7 +18,7 @@ async function getEthBalance(wallet) {
                 `&apikey=${process.env.ETHERSCAN_API_TOKEN}`);
         const ethusdPrice = await getEthLastPrice();
 
-        // wei -> ETH, ETH -> USD
+        // wei -> ETH, ETH -> USD 🤑
         const ethBalance = (walletData.data.result) * (Math.pow(10,-18));    
         const usdBalance = ethBalance * ethusdPrice;
 
@@ -31,7 +31,7 @@ async function getEthBalance(wallet) {
 }
 
 async function getEthLastPrice() {
-    /* Get the latest ETH-USD price */
+    /* Get the latest ETH-USD price 💰💰💰 */
     try {
         const response = await axios.get('https://api.etherscan.io/api' + 
                 '?module=stats' + 
