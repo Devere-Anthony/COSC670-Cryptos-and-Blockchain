@@ -1,6 +1,10 @@
-/* a0p2-0.js - Returns the amount of ETH in a given wallet. */
+/* a0p2-0.js - Returns the amount of ETH in a given wallet. 
+ * 
+ * Author: D
+ */
 
 const axios = require('axios');
+require("dotenv").config();    // hide dat token 🪙
 
 async function getEthBalance(wallet) {
     /* Get the latest current ETH balance of the given wallet */
@@ -11,7 +15,7 @@ async function getEthBalance(wallet) {
                 '&action=balance' +
                 `&address=${wallet}` +
                 '&tag=latest' +
-                '&apikey=3DPEN168SKHXBW2PKYAI5KBFCTIDHTMC8G');
+                `&apikey=${process.env.ETHERSCAN_API_TOKEN}`);
         const ethusdPrice = await getEthLastPrice();
 
         // wei -> ETH, ETH -> USD
@@ -32,7 +36,7 @@ async function getEthLastPrice() {
         const response = await axios.get('https://api.etherscan.io/api' + 
                 '?module=stats' + 
                 '&action=ethprice' +
-                '&apikey=3DPEN168SKHXBW2PKYAI5KBFCTIDHTMC8G');
+                `&apikey=${process.env.ETHERSCAN_API_TOKEN}`);
         return response.data.result.ethusd;
     } catch (error) {
         console.log(error);
