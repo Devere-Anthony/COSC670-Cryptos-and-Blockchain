@@ -6,15 +6,34 @@ async function getEthBalance(wallet) {
     /* Get the latest current ETH balance of the given wallet */
     try {
         const currentDate = new Date();
-        const response = await axios.get('https://api.etherscan.io/api' +
+        const walletData = await axios.get('https://api.etherscan.io/api' +
                 '?module=account' + 
                 '&action=balance' +
                 `&address=${wallet}` +
                 '&tag=latest' +
                 '&apikey=3DPEN168SKHXBW2PKYAI5KBFCTIDHTMC8G');
-        const ethBalance = (response.data.result) * (Math.pow(10,-18));    // wei -> ETH
-        console.log(`\nWallet: ${wallet}\nETH Balance: ${ethBalance}`);
+        const ethusdPrice = await getEthLastPrice();
+
+        // wei -> ETH, ETH -> USD
+        const ethBalance = (walletData.data.result) * (Math.pow(10,-18));    
+        const usdBalance = ethBalance * ethusdPrice;
+
+        console.log(`\nWallet Address: ${wallet}\nWallet ETH Balance: ${ethBalance}`);
+        console.log(`USD Value: $${usdBalance}  (@ current price: $${ethusdPrice})`);
         console.log(`Timestamp: ${currentDate.toDateString()} ${currentDate.toTimeString()}\n`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getEthLastPrice() {
+    /* Get the latest ETH-USD price */
+    try {
+        const response = await axios.get('https://api.etherscan.io/api' + 
+                '?module=stats' + 
+                '&action=ethprice' +
+                '&apikey=3DPEN168SKHXBW2PKYAI5KBFCTIDHTMC8G');
+        return response.data.result.ethusd;
     } catch (error) {
         console.log(error);
     }
