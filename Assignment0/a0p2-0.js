@@ -1,4 +1,4 @@
-/* Returns the amount of ETH in the wallet addres: 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045. */
+/* a0p2-0.js - Returns the amount of ETH in a given wallet. */
 
 const axios = require('axios');
 
@@ -12,7 +12,7 @@ async function getEthBalance(wallet) {
                 `&address=${wallet}` +
                 '&tag=latest' +
                 '&apikey=3DPEN168SKHXBW2PKYAI5KBFCTIDHTMC8G');
-        const ethBalance = (response.data.result) * (Math.pow(10,-18));
+        const ethBalance = (response.data.result) * (Math.pow(10,-18));    // wei -> ETH
         console.log(`\nWallet: ${wallet}\nETH Balance: ${ethBalance}`);
         console.log(`Timestamp: ${currentDate.toDateString()} ${currentDate.toTimeString()}\n`);
     } catch (error) {
