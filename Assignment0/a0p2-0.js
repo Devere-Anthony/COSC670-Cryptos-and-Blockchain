@@ -1,5 +1,7 @@
 /* a0p2-0.js - Returns the amount of ETH in a given wallet. 
  * 
+ * NOTE: Figure out what to do with the API token situation before submission.
+ * 
  * Author: D
  */
 
@@ -12,6 +14,7 @@ async function getEthBalance(wallet) {
         if (!process.env.ETHERSCAN_API_TOKEN) {    // don't forget your 🔑
             throw new Error("You forgot to set your API token.");
         }
+
         const currentDate = new Date();
         const walletData = await axios.get('https://api.etherscan.io/api' +
                 '?module=account' + 
@@ -19,10 +22,12 @@ async function getEthBalance(wallet) {
                 `&address=${wallet}` +
                 '&tag=latest' +
                 `&apikey=${process.env.ETHERSCAN_API_TOKEN}`);
-        const ethusdPrice = await getEthLastPrice();
 
-        // wei -> ETH, ETH -> USD 🤑
+        // wei -> ETH 
         const ethBalance = (walletData.data.result) * (Math.pow(10,-18));    
+
+        // ETH -> USD 🤑  (current price * ETH held)
+        const ethusdPrice = await getEthLastPrice();
         const usdBalance = ethBalance * ethusdPrice;
 
         console.log(`\nWallet Address: ${wallet}\nWallet ETH Balance: ${ethBalance}`);
