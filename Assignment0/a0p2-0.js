@@ -6,8 +6,9 @@
  * Author: D
  */
 
-const axios = require('axios');
-require("dotenv").config();    // hide dat token 🪙
+import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 async function getEthBalance(wallet) {
     /* Get the latest current ETH balance of the given wallet */
@@ -32,7 +33,7 @@ async function getEthBalance(wallet) {
         const usdBalance = ethBalance * ethusdPrice;
 
         console.log(`\nWallet Address: ${wallet}\nWallet ETH Balance: ${ethBalance}`);
-        console.log(`USD Value: $${usdBalance}  (@ current price: $${ethusdPrice})`);
+        console.log(`Total USD Value: $${usdBalance}  (@ current price: $${ethusdPrice})`);
         console.log(`Timestamp: ${currentDate.toDateString()} ${currentDate.toTimeString()}\n`);
     } catch (error) {
         console.log(error);
