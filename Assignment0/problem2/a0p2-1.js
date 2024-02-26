@@ -1,7 +1,5 @@
-/* a0p2-1.js - "How much ETH did Marlon Humphrey 🐦‍⬛ pay for Bored Ape #1880?" 
+/* a0p2-1.js - "How much ETH did Marlon Humphrey pay for Bored Ape #1880?" 
  *
- * NOTE: Figure out what to do with the API token situation before submission.
- * 
  * TODO: Make sure the transaction units make sense before submission.
  * 
  * Author: D 

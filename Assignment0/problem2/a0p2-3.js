@@ -1,4 +1,8 @@
-/* Print the current price of ETH in USD and BTC */
+/* Print the current price of ETH in USD and BTC 
+ *
+ * Author: D
+ */
+
 "use strict";
 import axios from "axios";
 import dotenv from "dotenv";

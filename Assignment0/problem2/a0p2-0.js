@@ -1,7 +1,5 @@
 /* a0p2-0.js - Returns the amount of ETH in a given wallet. 
  * 
- * NOTE: Figure out what to do with the API token situation before submission.
- * 
  * TODO: Make sure the transaction units make sense before submission.
  * Author: D
  */
