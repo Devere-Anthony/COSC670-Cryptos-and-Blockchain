@@ -41,7 +41,7 @@ await axios.get("https://api.coingecko.com/api/v3/coins/markets" +
 /* Now let's print some BTC prices over the years */
 console.log("Date\t\t\tPrice");
 let border = "-";
-console.log(border.repeat(30));
+console.log(border.repeat(35));
 await axios.get("https://api.coingecko.com/api/v3/coins/bitcoin/history?date=01-03-2020")
     .then(response => {
         console.log("1 MAR 2020:\t\t" + formatter.format(response.data.market_data.current_price.usd));
