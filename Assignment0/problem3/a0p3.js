@@ -1,5 +1,11 @@
 /* Print the current price is USD for BTC, ETH, SOL, ADS and then 
- * print the price of Bitcoin on different dates */
+ * print the price of Bitcoin on different dates 
+ * 
+ * TODO: Figure out what's up with the UTC and EST times?...
+ * 
+ * Author: D
+ */
+
 "use strict";
 import axios from "axios";
 
@@ -33,7 +39,6 @@ await axios.get("https://api.coingecko.com/api/v3/coins/markets" +
     .catch(error => { console.log(error); });
 
 /* Now let's print some BTC prices over the years */
-// TODO: Convert UTC to EST
 console.log("Date\t\t\tPrice");
 let border = "-";
 console.log(border.repeat(30));
