@@ -25,7 +25,8 @@ await axios.get("https://api.coingecko.com/api/v3/coins/markets" +
 
         // Iterate over data array and display results
         for (let i = 0; i < response.data.length; i++) {
-            console.log(`${titleCase(response.data[i].id)} (${response.data[i].symbol.toUpperCase()}): ${formatter.format(response.data[i].current_price)}`);
+            console.log(`${titleCase(response.data[i].id)} (${response.data[i].symbol.toUpperCase()}):` +
+             `${formatter.format(response.data[i].current_price)}`);
         }
         console.log();
     })
