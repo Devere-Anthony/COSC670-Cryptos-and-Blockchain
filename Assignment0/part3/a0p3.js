@@ -1,9 +1,13 @@
 /* Print the current price is USD for BTC, ETH, SOL, ADS and then 
- * print the price of Bitcoin on different dates 
+ * print the price of Bitcoin on different dates.
  * 
- * TODO: Figure out what's up with the UTC and EST times?...
+ * WARNING: This script uses Coin Gecko's free API and can be easily 
+ * rate limited evidently. If that occurs, wait and rerun the script 
+ * after some backoff period. Some of the requests may still fulfilled
+ * since I placed each in a separate request instead of bundling them 
+ * all together, so you may get partial data. 
  * 
- * Author: D
+ * NOTE: What's up with the UTC and EST times?...
  */
 
 "use strict";
@@ -36,7 +40,12 @@ await axios.get("https://api.coingecko.com/api/v3/coins/markets" +
         }
         console.log();
     })
-    .catch(error => { console.log(error); });
+    .catch(error => { 
+        if (error.response.data.status.error_code === 429) {
+            console.log(`Error code: ${error.response.data.status.error_code}`);
+            console.log("Request 1 exceeded rate limit, please wait to rerun program.\n");
+        }
+    });
 
 /* Now let's print some BTC prices over the years */
 console.log("Date\t\t\tPrice");
@@ -46,19 +55,39 @@ await axios.get("https://api.coingecko.com/api/v3/coins/bitcoin/history?date=01-
     .then(response => {
         console.log("1 MAR 2020:\t\t" + formatter.format(response.data.market_data.current_price.usd));
     })
-    .catch (error => console.log(error));
+    .catch(error => { 
+        if (error.response.data.status.error_code === 429) {
+            console.log(`Error code: ${error.response.data.status.error_code}`);
+            console.log("Request 2 exceeded rate limit, please wait to rerun program.");
+        }
+    });
 
 await axios.get("https://api.coingecko.com/api/v3/coins/bitcoin/history?date=30-03-2020")
     .then(response => {
         console.log("30 MAR 2020:\t\t" + formatter.format(response.data.market_data.current_price.usd));})
-    .catch (error => console.log(error));
+        .catch(error => { 
+            if (error.response.data.status.error_code === 429) {
+                console.log(`\nError code: ${error.response.data.status.error_code}`);
+                console.log("Request 3 exceeded rate limit, please wait to rerun program.");
+            }
+        });
 
 await axios.get("https://api.coingecko.com/api/v3/coins/bitcoin/history?date=01-05-2017")
     .then(response => {
         console.log("17 MAY 2017:\t\t" + formatter.format(response.data.market_data.current_price.usd));})
-    .catch (error => console.log(error))
+        .catch(error => { 
+            if (error.response.data.status.error_code === 429) {
+                console.log(`\nError code: ${error.response.data.status.error_code}`);
+                console.log("Request 4 exceeded rate limit, please wait to rerun program.");
+            }
+        });
 
 await axios.get("https://api.coingecko.com/api/v3/coins/bitcoin/history?date=13-07-2022")
     .then(response => {
         console.log("13 JULY 2022:\t\t" + formatter.format(response.data.market_data.current_price.usd));})
-    .catch (error => console.log(error))
+        .catch(error => { 
+            if (error.response.data.status.error_code === 429) {
+                console.log(`\nError code: ${error.response.data.status.error_code}`);
+                console.log("Request 5 exceeded rate limit, please wait to rerun program.\n");
+            }
+        });
