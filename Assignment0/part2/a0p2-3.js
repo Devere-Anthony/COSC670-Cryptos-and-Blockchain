@@ -1,7 +1,4 @@
-/* Print the current price of ETH in USD and BTC 
- *
- * Author: D
- */
+/* Print the current price of ETH in USD and BTC */
 
 "use strict";
 import axios from "axios";
@@ -36,9 +33,10 @@ async function getEthUsd() {
 
 const btc = await getEthBtc();
 const usd = await getEthUsd();
-const formatter = new Intl.NumberFormat('en-US', {   // very convenient JS, thank you
+const formatter = new Intl.NumberFormat('en-US', {  
     style: 'currency',
     currency: 'USD',
 });
+
 console.log(`\nCurrent ETH price in BTC: ${btc.toFixed(5)} BTC`);
 console.log(`Current ETH price in USD: ${formatter.format(usd)}\n`);

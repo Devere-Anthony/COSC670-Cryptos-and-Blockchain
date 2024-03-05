@@ -1,13 +1,15 @@
-/* a0p2-0.js - Returns the amount of ETH in a given wallet. 
- * 
- * TODO: Make sure the transaction units make sense before submission.
- * Author: D
- */
+/* a0p2-0.js - Returns the amount of ETH in a given wallet. */
 
 "use strict";
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
+
+const formatter = new Intl.NumberFormat('en-US', {
+    /* Use a JS class to change the currency display format */
+    style: 'currency',
+    currency: 'USD',
+});
 
 async function getEthBalance(wallet) {
     /* Get the latest current ETH balance of the given wallet */
@@ -27,12 +29,12 @@ async function getEthBalance(wallet) {
         // wei -> ETH 
         const ethBalance = (walletData.data.result) * (Math.pow(10,-18));    
 
-        // ETH -> USD 🤑  (current price * ETH held)
+        // ETH -> USD  (current price * ETH held)
         const ethusdPrice = await getEthLastPrice();
         const usdBalance = ethBalance * ethusdPrice;
 
         console.log(`\nWallet Address: ${wallet}\nWallet ETH Balance: ${ethBalance}`);
-        console.log(`Total USD Value: $${usdBalance}  (@ current price: $${ethusdPrice})`);
+        console.log(`Total USD Value: ${formatter.format(usdBalance)}  (@ current price: ${formatter.format(ethusdPrice)})`);
         console.log(`Timestamp: ${currentDate.toDateString()} ${currentDate.toTimeString()}\n`);
     } catch (error) {
         console.log(error);

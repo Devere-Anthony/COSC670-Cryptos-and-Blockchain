@@ -1,9 +1,4 @@
-/* a0p2-1.js - "How much ETH did Marlon Humphrey pay for Bored Ape #1880?" 
- *
- * TODO: Make sure the transaction units make sense before submission.
- * 
- * Author: D 
- */
+/* a0p2-1.js - "How much ETH did Marlon Humphrey pay for Bored Ape #1880?" */
 
 "use strict";
 import axios from 'axios';
@@ -36,4 +31,4 @@ async function getTransactionValue(hash) {
 }
 
 const total = await getTransactionValue('0x192336f603b8e7bef43518108c39b8fb933c8eee60c0e242655138c8206259ef');
-console.log(`\nTotal ETH Marlon Humphrey spent on Bored Ape #1880: ${total} ETH\n`)
+console.log(`\nTotal ETH Marlon Humphrey spent on Bored Ape #1880: ${total.toFixed(4)} ETH\n`)
