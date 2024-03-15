@@ -1,3 +1,3 @@
 # COSC670-Cryptos-and-Blockchain
 
-<div class="tenor-gif-embed" data-postid="19439861" data-share-method="host" data-aspect-ratio="1.82857" data-width="100%"><a href="https://tenor.com/view/bitcoin-cryptocurrency-blockchain-crypto-moon-gif-19439861">Bitcoin Cryptocurrency GIF</a>from <a href="https://tenor.com/search/bitcoin-gifs">Bitcoin GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHpyeXI4MHo2NGl5dnptYmx2aWhqZ2lmMmh4bzN0dWx6ZW1vM2kzdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/AeWlvxNi3hJvotb12f/giphy.gif)
