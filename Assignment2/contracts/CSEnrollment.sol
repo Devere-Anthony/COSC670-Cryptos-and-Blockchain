@@ -18,10 +18,24 @@ contract CSEnrollment {
         Level studentLevel;
     }
 
-    
+    struct Course {
+        /** Represents a unique course offering */
+        // TODO: Figure out how to generate a uniqe identifier for each course, 
+        // look into keccak256 hashing for this that corresponds to courseName which *should*
+        // make then unique 
+        string courseName;
+        Level courseLevel;
+        uint8 numCredits;
+        uint8 capacity;
+        uint numEnrolled;
+        address[] courseRoster;
+    }
+
+    Course[] coursesOffered;    // dynamic array to store courses in CS dept.
+
     constructor (address _owner) {
         owner = _owner;
     }
 
-    // function register() 
+    // function register()
 }
