@@ -95,17 +95,20 @@ contract CSEnrollment {
     // test this guy then? 
     function register(uint8 credits, Level studentType, string memory course) public {
         /** Allow a student to register for an offered course. */
-        // TODO: Only implement the ability to just add a student to the roster, don't do any 
-        // other checking or constraints until this is done
 
-        address studentID = msg.sender;
+        // TODO: Implement the code to create a student based on the credits and studentType arguments
+        Student memory student = Student({
+            studentId: msg.sender,
+            numCredits: credits,
+            studentLevel: studentType
+        });
 
         // when a student EOA invokes this function 
         for (uint i = 0; i < courses.length; i++) {
             bool sameString = compareStrings(course, courses[i].courseNumber);
             
             if(sameString) {    // add it to the course roster
-                courses[i].courseRoster.push(studentID);
+                courses[i].courseRoster.push(student.studentId);
             }
         }
 
