@@ -91,6 +91,29 @@ contract CSEnrollment {
         }
     }
 
+    // TODO: Figure out if this should be external or public and if external, then how do we 
+    // test this guy then? 
+    function register(uint8 credits, Level studentType, string memory course) public {
+        /** Allow a student to register for an offered course. */
+        // TODO: Only implement the ability to just add a student to the roster, don't do any 
+        // other checking or constraints until this is done
+
+        address studentID = msg.sender;
+
+        // when a student EOA invokes this function 
+        for (uint i = 0; i < courses.length; i++) {
+            bool sameString = compareStrings(course, courses[i].courseNumber);
+            
+            if(sameString) {    // add it to the course roster
+                courses[i].courseRoster.push(studentID);
+            }
+        }
+
+        // take the course and search for it in the courses array 
+
+        // once it's found, add the studentID to that Course's courseRoster
+    }
+
 //==============================================================================
 // HELPER FUNCTIONS
 //==============================================================================
@@ -103,6 +126,15 @@ contract CSEnrollment {
         for (uint i = 0; i < courses.length; i++) {
             console.log("Course number: %s", courses[i].courseNumber);
         }
+    }
+
+    function compareStrings(string memory _a, string memory _b) private returns(bool) {
+        if (keccak256(abi.encodePacked(_a)) == keccak256(abi.encodePacked(_b))) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     function destroy() public onlyOwner {
