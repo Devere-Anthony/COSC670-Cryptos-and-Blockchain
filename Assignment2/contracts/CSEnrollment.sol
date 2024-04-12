@@ -43,8 +43,8 @@ contract CSEnrollment {
         // console.log("Owner: %s", owner);
         addCourse("670", Level.Graduate);
         addCourse("617", Level.Graduate);
-        addCourse("484", Level.Graduate);
-        addCourse("431", Level.Graduate);
+        addCourse("484", Level.Undergradute);
+        addCourse("431", Level.Undergradute);
         // console.log("Number of courses: %s", getCoursesLength());
         printCourses();
     }
