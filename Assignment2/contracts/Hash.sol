@@ -17,4 +17,9 @@ contract Hash {
         console.logBytes32(a);
     }
 
+    string[] strings = ["a", "b", "c"];
+
+    function getStrings() public returns(string[] memory) {
+        return strings;
+    }
 }
