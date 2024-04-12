@@ -4,12 +4,12 @@ pragma solidity ^0.8.0;
 // TODO: Figure out wwhat is/how to deal with mappings and if they're beneficial to my use cases
 
 contract CSEnrollment {
-    address owner;    // owner of smart contract
+    address owner; // owner of smart contract
 
     enum Level {
-        Undergradute, 
+        Undergradute,
         Graduate
-    }  // keep track of student level 
+    } // keep track of student level
 
     struct Student {
         /** Represents a student corresponding to a unique EOA */
@@ -20,12 +20,12 @@ contract CSEnrollment {
 
     struct Course {
         /** Represents a unique course offering */
-        // TODO: Figure out how to generate a uniqe identifier for each course, 
+        // TODO: Figure out how to generate a uniqe identifier for each course,
         // look into keccak256 hashing for this that corresponds to courseName which *should*
-        // make then unique 
-        string courseName;
-        bytes3 courseNumber;
-        bytes32 courseId;
+        // make then unique
+        // string courseName;
+        string courseNumber;
+        // bytes32 courseId;
         Level courseLevel;
         uint8 numCredits;
         uint8 capacity;
@@ -35,38 +35,37 @@ contract CSEnrollment {
 
     Course[] courses;
 
-    constructor (address _owner) {
+    constructor(address _owner) {
         owner = _owner;
     }
 
-    Course cosc670 = Course({
-        courseName: "Special Topics in Computer Science",
-        courseNumber: "670", 
-        courseId: keccak256("670"),
-        courseLevel: Level.Graduate,
-        numCredits: 3,
-        capacity: 30,
-        numEnrolled: 0,
-        courseRoster: new address[](0)
-    });
-
-    // TODO: Add a helper function that is used to create a new Course...or just 
-    // put it all in the add() function?...
-
-    modifier onlyOwner {
+    modifier onlyOwner() {
         /** Function modifier that allows only the owner to execute function. */
-        require (msg.sender == owner);
+        require(msg.sender == owner);
         _;
     }
 
-    function add() public onlyOwner {
+    function add( string memory _courseNumber, Level _courseType) public onlyOwner {
         /** Adds a new course to the enrollment contract
          * Requirements:
-         *  - only the owner can add a new course 
+         *  - only the owner can add a new course ✅
          *  - owner can't add a course that already exists (i.e. same courseNumber)
          */
 
-        // Test for ownership
+        for (uint i = 0; i < courses.length; i++) {
+            if (keccak256(abi.encodePacked(courses[i].courseNumber)) == keccak256(abi.encodePacked(_courseNumber))) {
+                // figure out how to bail out, probably use revert?
+            } else {
+                courses.push(Course({
+                    courseNumber: _courseNumber,
+                    courseLevel: _courseType,
+                    numCredits: 3,
+                    capacity: 30,
+                    numEnrolled: 0,
+                    courseRoster: new address[](0)
+                }));
+            }
+        }
     }
 
     function destroy() public onlyOwner {
