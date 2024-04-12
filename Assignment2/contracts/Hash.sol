@@ -4,11 +4,17 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Hash {
-    string name;
 
-    constructor(string memory _name) {
-        name = _name;
-        bytes32 a = keccak256(abi.encodePacked(_name));
+    // constructor(string memory _name) {
+    //     bytes32 a = keccak256(abi.encodePacked(_name));
+    //     console.log("%s:", _name);
+    //     console.logBytes32(a);
+    // }
+
+    constructor(uint courseNumber) {
+        bytes32 a = keccak256(abi.encodePacked(courseNumber));
+        // console.log("%s:", _name);
         console.logBytes32(a);
     }
+
 }

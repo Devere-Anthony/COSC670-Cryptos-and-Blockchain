@@ -24,6 +24,8 @@ contract CSEnrollment {
         // look into keccak256 hashing for this that corresponds to courseName which *should*
         // make then unique 
         string courseName;
+        bytes3 courseNumber;
+        bytes32 courseId;
         Level courseLevel;
         uint8 numCredits;
         uint8 capacity;
@@ -31,11 +33,49 @@ contract CSEnrollment {
         address[] courseRoster;
     }
 
-    Course[] coursesOffered;    // dynamic array to store courses in CS dept.
+    Course[] courses;
 
     constructor (address _owner) {
         owner = _owner;
     }
 
-    // function register()
+    Course cosc670 = Course({
+        courseName: "Special Topics in Computer Science",
+        courseNumber: "670", 
+        courseId: keccak256("670"),
+        courseLevel: Level.Graduate,
+        numCredits: 3,
+        capacity: 30,
+        numEnrolled: 0,
+        courseRoster: new address[](0)
+    });
+
+    // TODO: Add a helper function that is used to create a new Course...or just 
+    // put it all in the add() function?...
+
+    modifier onlyOwner {
+        /** Function modifier that allows only the owner to execute function. */
+        require (msg.sender == owner);
+        _;
+    }
+
+    function add() public onlyOwner {
+        /** Adds a new course to the enrollment contract
+         * Requirements:
+         *  - only the owner can add a new course 
+         *  - owner can't add a course that already exists (i.e. same courseNumber)
+         */
+
+        // Test for ownership
+    }
+
+    function destroy() public onlyOwner {
+        selfdestruct(payable(owner));
+    }
+
+    function tipOwner() public payable {
+        /** TU students, send me 💰! Pls n thx */
+        (bool success, ) = owner.call{value: msg.value}("");
+        require(success);
+    }
 }
