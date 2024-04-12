@@ -111,10 +111,6 @@ contract CSEnrollment {
                 courses[i].courseRoster.push(student.studentId);
             }
         }
-
-        // take the course and search for it in the courses array 
-
-        // once it's found, add the studentID to that Course's courseRoster
     }
 
 //==============================================================================
