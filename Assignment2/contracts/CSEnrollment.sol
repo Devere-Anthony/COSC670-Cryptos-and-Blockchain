@@ -35,7 +35,7 @@ contract CSEnrollment {
     Course[] courses;
 
 //==============================================================================
-// HELPER FUNCTIONS
+// ESSENTIAL FUNCTIONS
 //==============================================================================
     constructor() {
         owner = msg.sender;
