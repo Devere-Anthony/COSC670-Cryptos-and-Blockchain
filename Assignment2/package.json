@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ethers": "^6.11.1",
     "hardhat": "^2.22.2"
   },
   "devDependencies": {
