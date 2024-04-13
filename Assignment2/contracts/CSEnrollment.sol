@@ -157,6 +157,7 @@ contract CSEnrollment {
     }
 
     function destroy() public onlyOwner {
+        /** Escape hatch just in case, blow it all upppp. */
         selfdestruct(payable(owner));
     }
 
