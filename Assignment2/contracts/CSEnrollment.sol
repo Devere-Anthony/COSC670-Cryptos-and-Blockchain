@@ -35,6 +35,8 @@ contract CSEnrollment {
     }
 
     Course[] courses;
+    Course[] gradCourses;
+    Course[] undergradCourses;
     // Student[] students;
 
 //==============================================================================
@@ -84,7 +86,6 @@ contract CSEnrollment {
                     numEnrolled: 0,
                     courseRoster: new address[](0)
                 }));
-                // console.log(msg.sender);
                 return;   
             }
         }
