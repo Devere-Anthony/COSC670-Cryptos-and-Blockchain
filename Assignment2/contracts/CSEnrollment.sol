@@ -92,19 +92,32 @@ contract CSEnrollment {
 
     function register(uint8 credits, Level studentType, string memory course) external {
         /** Allow a student to register for an offered course. */
-        // external since owner doesn't need to register for courses?...
 
+        // let's find the course's index in the courses array if it exists
+        //and then use that to check against the constraints
+        int courseIndex = -1;
         for (uint i = 0; i < courses.length; i++) {
             bool sameString = compareStrings(course, courses[i].courseNumber);
-            
-            if(sameString) {    // add it to the course roster
-                courses[i].courseRoster.push(msg.sender);
-                console.log("%s successfully registered for %s!", msg.sender, course);
-                return;
+            if (sameString) {
+                courseIndex = int(i);
             }
         }
-        console.log("ERROR: %s not registered for %s!", msg.sender, course);
-    }
+
+        // Case: Course doesn't exist
+        if (courseIndex == -1) {
+            console.log("ENROLLEMENT ERROR: %s is not currently offered!", course);
+            return;
+        } 
+
+        // Case: Course is full
+        if (getRosterLength(course) >= 30) {
+            console.log("ENROLLMENT ERROR: %s is already full!", course);
+            return;
+        }
+
+        // Case: All constraints met, student can enroll
+        courses[uint(courseIndex)].courseRoster.push(msg.sender);
+}
 
     function getRoster(string memory course) public view {
         /** For now, simply prints the roster for a given course? */
@@ -118,9 +131,9 @@ contract CSEnrollment {
             } 
         }
 
-        // course not found => bail out
+        // Case: Course not found => bail out
         if (index == -1) {
-            console.log("ERROR: %s not offered!", course);
+            console.log("ENROLLMENT ERROR: %s is not offered!", course);
             return;
         } 
 
@@ -129,6 +142,7 @@ contract CSEnrollment {
          for (uint i = 0; i < courses[uint256(index)].courseRoster.length; i++) {
             console.log("%s. %s", (i+1), courses[uint256(index)].courseRoster[i]);
         }
+
     }
 
 //==============================================================================
@@ -138,6 +152,17 @@ contract CSEnrollment {
         /** Get length of the courses array */
         return courses.length;
     }
+
+    function getRosterLength(string memory course) public view returns(uint) {
+        /** Get number of enrolled students for specified course */
+        for (uint i = 0; i < courses.length; i++) {
+            bool foundIndex = compareStrings(course, courses[i].courseNumber);
+            if (foundIndex == true) {
+                return courses[i].courseRoster.length;
+            } 
+        }
+    }
+
 
     function printCourses() public view {
         /** Print out course numbers in the courses array */
