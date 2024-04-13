@@ -90,10 +90,9 @@ contract CSEnrollment {
         }
     }
 
-    // TODO: Figure out if this should be external or public and if external, then how do we 
-    // test this guy then? 
-    function register(uint8 credits, Level studentType, string memory course) public {
+    function register(uint8 credits, Level studentType, string memory course) external {
         /** Allow a student to register for an offered course. */
+        // external since owner doesn't need to register for courses?...
 
         for (uint i = 0; i < courses.length; i++) {
             bool sameString = compareStrings(course, courses[i].courseNumber);
