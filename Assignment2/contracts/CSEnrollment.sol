@@ -79,7 +79,7 @@ contract CSEnrollment {
         }));
     }
 
-    function register(uint8 credits, Level studentType, string memory course) external {
+    function register(uint8 _credits, Level _studentType, string memory _course) external {
         /** Allow a student to register for an offered course. */
 
         // Check if student is already enrolled
@@ -93,7 +93,7 @@ contract CSEnrollment {
         // Find course index
         int courseIndex = -1;
         for (uint i = 0; i < courses.length; i++) {
-            bool sameString = compareStrings(course, courses[i].courseNumber);
+            bool sameString = compareStrings(_course, courses[i].courseNumber);
             if (sameString) {
                 courseIndex = int(i);
             }
@@ -101,33 +101,33 @@ contract CSEnrollment {
 
         // Case: Course doesn't exist
         if (courseIndex == -1) {
-            console.log("ENROLLEMENT ERROR: %s is not currently offered!", course);
+            console.log("ENROLLEMENT ERROR: %s is not currently offered!", _course);
             return;
         } 
 
         // Case: Course is full
-        if (getRosterLength(course) >= 30) {
-            console.log("ENROLLMENT ERROR: %s is already full!", course);
+        if (getRosterLength(_course) >= 30) {
+            console.log("ENROLLMENT ERROR: %s is already full!", _course);
             return;
         }
 
         // Case: Undergrad can only register for undergrad courses
-        if (studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Undergradute) {
+        if (_studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Undergradute) {
             courses[uint(courseIndex)].courseRoster.push(msg.sender);
             students.push(msg.sender);
             return;
         }
 
         // Case: Undergrad can't register for graduate course
-        if (studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Graduate) {
+        if (_studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Graduate) {
             console.log("ENROLLMENT ERROR: Undergraduate cannot enroll in graduate course!");
             return;
         }
 
 
         // Case:  Grad student can register for any course if >= 20 credits and not 431
-        if (studentType == Level.Graduate && credits > 20) {
-            if (compareStrings('431', course)) {
+        if (_studentType == Level.Graduate && _credits > 20) {
+            if (compareStrings('431', _course)) {
                 console.log("ENROLLEMENT ERROR: Graduate students cannot enroll in 431!");
                 return;
             } else {
@@ -140,13 +140,13 @@ contract CSEnrollment {
         }
 }
 
-    function getRoster(string memory course) public view {
+    function getRoster(string memory _course) public view {
         /** Prints the roster for a given course */
     
         // Find index of course
         int index = -1;
         for (uint i = 0; i < courses.length; i++) {
-            bool foundIndex = compareStrings(course, courses[i].courseNumber);
+            bool foundIndex = compareStrings(_course, courses[i].courseNumber);
             if (foundIndex == true) {
                 index = int(i);
             } 
@@ -154,12 +154,12 @@ contract CSEnrollment {
 
         // Case: Course not found; bail out
         if (index == -1) {
-            console.log("ENROLLMENT ERROR: %s is not offered!", course);
+            console.log("ENROLLMENT ERROR: %s is not offered!", _course);
             return;
         } 
 
         // Case: Course found; return EOAs of registered students
-         console.log("Roster for %s:", course);
+         console.log("Roster for %s:", _course);
          for (uint i = 0; i < courses[uint256(index)].courseRoster.length; i++) {
             console.log("%s. %s", (i+1), courses[uint256(index)].courseRoster[i]);
         }
@@ -173,10 +173,10 @@ contract CSEnrollment {
         return courses.length;
     }
 
-    function getRosterLength(string memory course) public view returns(uint) {
+    function getRosterLength(string memory _course) public view returns(uint) {
         /** Get number of registered students for specified course */
         for (uint i = 0; i < courses.length; i++) {
-            bool foundIndex = compareStrings(course, courses[i].courseNumber);
+            bool foundIndex = compareStrings(_course, courses[i].courseNumber);
             if (foundIndex == true) {
                 return courses[i].courseRoster.length;
             } 
