@@ -25,8 +25,6 @@ contract CSEnrollment {
     }
 
     Course[] courses;
-    Course[] gradCourses;
-    Course[] undergradCourses;
     address[] students;
 
 //==============================================================================
@@ -59,26 +57,26 @@ contract CSEnrollment {
                 numEnrolled: 0,
                 courseRoster: new address[](0)
             }));
-
             return;
         }
 
-        // All other cases
         for (uint i = 0; i < courses.length; i++) {
-            if (keccak256(abi.encodePacked(courses[i].courseNumber)) == keccak256(abi.encodePacked(_courseNumber))) {
-                continue;
+            if (compareStrings(courses[i].courseNumber, _courseNumber)) {
+                console.log("ADDING COURSE ERROR: Course %s already exists", _courseNumber);
+                return;
             } else {
-                courses.push(Course({
-                    courseNumber: _courseNumber,
-                    courseLevel: _courseType,
-                    numCredits: 3,
-                    capacity: 30,
-                    numEnrolled: 0,
-                    courseRoster: new address[](0)
-                }));
-                return;   
+                continue;
             }
         }
+
+        courses.push(Course({
+            courseNumber: _courseNumber,
+            courseLevel: _courseType,
+            numCredits: 3,
+            capacity: 30,
+            numEnrolled: 0,
+            courseRoster: new address[](0)
+        }));
     }
 
     function register(uint8 credits, Level studentType, string memory course) external {

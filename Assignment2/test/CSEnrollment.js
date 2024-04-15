@@ -2,13 +2,24 @@ const { expect } = require("chai");
 
 console.clear();
 
-// describe("Deploy CSEnrollment Smart Contract", () => {
-//     it("Deploying Contract", async () => {
-//         const registrar = await ethers.deployContract("CSEnrollment");
-//     });
-// });
+describe("Deploy CSEnrollment Smart Contract", () => {
+    it("Add a nonexisting class", async () => {
+        const registrar = await ethers.deployContract("CSEnrollment");
+        await registrar.printCourses();
 
-describe("Student Registration", () => {
+        // Add a new course
+        await registrar.addCourse('519', 1);
+        console.log();
+        await registrar.printCourses();
+
+        // Add a duplicate course
+        await registrar.addCourse('519', 1);
+        await registrar.addCourse('670', 1);
+
+    });
+});
+
+// describe("Student Registration", () => {
     // it("Successful registration and roster", async () => {
     //     const registrar = await ethers.deployContract("CSEnrollment");
     //     const [owner, student1, student2, student3, student4] = await ethers.getSigners();
@@ -106,18 +117,18 @@ describe("Student Registration", () => {
 
     // });
 
-    it("Students can register for only one class", async () => {
-        const registrar = await ethers.deployContract("CSEnrollment");
-        const [owner, student1, student2, student3, student4, student5] = await ethers.getSigners();
+    // it("Students can register for only one class", async () => {
+    //     const registrar = await ethers.deployContract("CSEnrollment");
+    //     const [owner, student1, student2, student3, student4, student5] = await ethers.getSigners();
 
-        await registrar.connect(student1).register(33, 1, '617');
-        await registrar.connect(student2).register(32, 1, '670');
-        await registrar.connect(student3).register(21, 1, '617');
-        await registrar.connect(student4).register(6, 0, '431');
-        await registrar.connect(student5).register(33, 0, '484');
-        await registrar.connect(student1).register(33, 1, '484');
-        console.log();
-        await registrar.getStudents();
-    });
+    //     await registrar.connect(student1).register(33, 1, '617');
+    //     await registrar.connect(student2).register(32, 1, '670');
+    //     await registrar.connect(student3).register(21, 1, '617');
+    //     await registrar.connect(student4).register(6, 0, '431');
+    //     await registrar.connect(student5).register(33, 0, '484');
+    //     await registrar.connect(student1).register(33, 1, '484');
+    //     console.log();
+    //     await registrar.getStudents();
+    // });
 
-});
+// });
