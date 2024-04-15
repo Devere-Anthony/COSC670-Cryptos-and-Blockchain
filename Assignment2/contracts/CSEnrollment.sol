@@ -15,18 +15,8 @@ contract CSEnrollment {
         Graduate
     }
 
-    // Student not strictly necessary but may be useful later, just delete or 
-    // keep commented out until/if the time comes
-    // struct Student {
-    //     address studentId;
-    //     uint8 numCredits;
-    //     Level studentLevel;
-    // }
-
     struct Course {
-        // string courseName;
         string courseNumber;
-        // bytes32 courseId;    // does it need unique idenfitier like this?
         Level courseLevel;
         uint8 numCredits;
         uint8 capacity;
@@ -37,7 +27,6 @@ contract CSEnrollment {
     Course[] courses;
     Course[] gradCourses;
     Course[] undergradCourses;
-    // Student[] students;
     address[] students;
 
 //==============================================================================
@@ -60,7 +49,7 @@ contract CSEnrollment {
     function addCourse( string memory _courseNumber, Level _courseType) public onlyOwner {
         /** Adds a new course to the enrollment contract */
 
-        // empty courses array => just add the course 
+        // Case: Empty courses array; just add the course 
         if (courses.length == 0) {
             courses.push(Course({
                 courseNumber: _courseNumber,
@@ -74,7 +63,7 @@ contract CSEnrollment {
             return;
         }
 
-        // all other cases
+        // All other cases
         for (uint i = 0; i < courses.length; i++) {
             if (keccak256(abi.encodePacked(courses[i].courseNumber)) == keccak256(abi.encodePacked(_courseNumber))) {
                 continue;
@@ -154,9 +143,9 @@ contract CSEnrollment {
 }
 
     function getRoster(string memory course) public view {
-        /** For now, simply prints the roster for a given course? */
+        /** Prints the roster for a given course */
     
-        // find index of course
+        // Find index of course
         int index = -1;
         for (uint i = 0; i < courses.length; i++) {
             bool foundIndex = compareStrings(course, courses[i].courseNumber);
@@ -165,18 +154,17 @@ contract CSEnrollment {
             } 
         }
 
-        // Case: Course not found => bail out
+        // Case: Course not found; bail out
         if (index == -1) {
             console.log("ENROLLMENT ERROR: %s is not offered!", course);
             return;
         } 
 
-        // course found => return EOAs of registered students
+        // Case: Course found; return EOAs of registered students
          console.log("Roster for %s:", course);
          for (uint i = 0; i < courses[uint256(index)].courseRoster.length; i++) {
             console.log("%s. %s", (i+1), courses[uint256(index)].courseRoster[i]);
         }
-
     }
 
 //==============================================================================
@@ -188,7 +176,7 @@ contract CSEnrollment {
     }
 
     function getRosterLength(string memory course) public view returns(uint) {
-        /** Get number of enrolled students for specified course */
+        /** Get number of registered students for specified course */
         for (uint i = 0; i < courses.length; i++) {
             bool foundIndex = compareStrings(course, courses[i].courseNumber);
             if (foundIndex == true) {
@@ -196,7 +184,6 @@ contract CSEnrollment {
             } 
         }
     }
-
 
     function printCourses() public view {
         /** Print out course numbers in the courses array */
@@ -215,21 +202,17 @@ contract CSEnrollment {
         
     }
 
-    function destroy() public onlyOwner {
-        /** Escape hatch just in case, blow it all upppp. */
-        selfdestruct(payable(owner));
-    }
-
-    function tipOwner() public payable {
-        /** TU students, send me 💰, if you'd like! Pls n thx. */
-        (bool success, ) = owner.call{value: msg.value}("");
-        require(success);
-    }
-
     function getStudents() public view {
+        /** Print list of registered students to console */
         console.log("Registered Students");
         for (uint i = 0; i < students.length; i++) {
             console.log("Student: %s", students[i]);
         }
+    }
+
+    function tipOwner() public payable {
+        /** TU students, send me 💰, if you'd like! Pls n thx */
+        (bool success, ) = owner.call{value: msg.value}("");
+        require(success);
     }
 }
