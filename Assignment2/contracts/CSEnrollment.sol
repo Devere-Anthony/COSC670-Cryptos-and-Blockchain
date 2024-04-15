@@ -116,8 +116,18 @@ contract CSEnrollment {
             return;
         }
 
-        // Case: All constraints met, student can enroll
-        courses[uint(courseIndex)].courseRoster.push(msg.sender);
+        // Case: Undergrad can only register for undergrad courses
+        if (studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Undergradute) {
+            courses[uint(courseIndex)].courseRoster.push(msg.sender);
+        }
+
+        // Case: Undergrad can't register for graduate course
+        if (studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Graduate) {
+            console.log("ENROLLMENT ERROR: Undergraduate cannot enroll in graduate course!");
+        }
+
+
+        // Case:  Grad student can register for any course if >= 20 credits
 }
 
     function getRoster(string memory course) public view {
