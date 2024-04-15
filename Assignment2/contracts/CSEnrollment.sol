@@ -38,6 +38,7 @@ contract CSEnrollment {
     Course[] gradCourses;
     Course[] undergradCourses;
     // Student[] students;
+    address[] students;
 
 //==============================================================================
 // ESSENTIAL FUNCTIONS
@@ -94,8 +95,15 @@ contract CSEnrollment {
     function register(uint8 credits, Level studentType, string memory course) external {
         /** Allow a student to register for an offered course. */
 
-        // let's find the course's index in the courses array if it exists
-        //and then use that to check against the constraints
+        // Check if student is already enrolled
+        for (uint i = 0; i < students.length; i++) {
+            if (msg.sender == students[i]) {
+                console.log("ENROLLMENT ERROR: Student %s is already enrolled in a course!", msg.sender);
+                return;
+            }
+        }
+
+        // Find course index
         int courseIndex = -1;
         for (uint i = 0; i < courses.length; i++) {
             bool sameString = compareStrings(course, courses[i].courseNumber);
@@ -119,6 +127,7 @@ contract CSEnrollment {
         // Case: Undergrad can only register for undergrad courses
         if (studentType == Level.Undergradute && courses[uint(courseIndex)].courseLevel == Level.Undergradute) {
             courses[uint(courseIndex)].courseRoster.push(msg.sender);
+            students.push(msg.sender);
             return;
         }
 
@@ -136,6 +145,7 @@ contract CSEnrollment {
                 return;
             } else {
                 courses[uint(courseIndex)].courseRoster.push(msg.sender);
+                students.push(msg.sender);
                 return;
             }
         } else {
@@ -214,5 +224,12 @@ contract CSEnrollment {
         /** TU students, send me 💰, if you'd like! Pls n thx. */
         (bool success, ) = owner.call{value: msg.value}("");
         require(success);
+    }
+
+    function getStudents() public view {
+        console.log("Registered Students");
+        for (uint i = 0; i < students.length; i++) {
+            console.log("Student: %s", students[i]);
+        }
     }
 }
