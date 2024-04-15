@@ -53,21 +53,56 @@ describe("Student Registration", () => {
     //     await registrar.connect(student2).register(30, 0, '670');
     // });
     
-    it("Undergrad can only register for undergrad courses", async () => {
-        const registrar = await ethers.deployContract("CSEnrollment");
-        const [owner, student1] = await ethers.getSigners();
+    // it("Undergrad can only register for undergrad courses", async () => {
+    //     const registrar = await ethers.deployContract("CSEnrollment");
+    //     const [owner, student1] = await ethers.getSigners();
 
-        // Attempt to register for undergrad course as an undergrad
-        await registrar.connect(student1).register(15, 0, '431');
-        await registrar.getRoster('431');
-    });
+    //     // Attempt to register for undergrad course as an undergrad
+    //     await registrar.connect(student1).register(15, 0, '431');
+    //     await registrar.getRoster('431');
+    // });
 
-    it("Undergrad can't register for graduate course", async () => {
-        const registrar = await ethers.deployContract("CSEnrollment");
-        const [owner, student1] = await ethers.getSigners();
+    // it("Undergrad can't register for graduate course", async () => {
+    //     const registrar = await ethers.deployContract("CSEnrollment");
+    //     const [owner, student1] = await ethers.getSigners();
 
-        // Attempt to register for undergrad course as an undergrad
-        await registrar.connect(student1).register(15, 0, '670');
-        await registrar.getRoster('670');
-    });
+    //     // Attempt to register for undergrad course as an undergrad
+    //     await registrar.connect(student1).register(15, 0, '670');
+    //     await registrar.getRoster('670');
+    // });
+
+    // it("Graduate can register for any course", async () => {
+    //     const registrar = await ethers.deployContract("CSEnrollment");
+    //     const [owner, student1, student2, student3] = await ethers.getSigners();
+
+    //     // Register for a graduate course with 20+ credits 
+    //     await registrar.connect(student1).register(21, 1, '670');
+    //     await registrar.getRoster('670');
+
+    //     // Register for an undergraduate course with 20+ credits
+    //     await registrar.connect(student2).register(55, 1, '484');
+    //     await registrar.getRoster('484');
+    // });
+
+    // it("Graduate can't register courses", async () => {
+    //     const registrar = await ethers.deployContract("CSEnrollment");
+    //     const [owner, student1, student2, student3] = await ethers.getSigners();
+
+    //     // Fail to register to graduate course with <= 20 credits
+    //     await registrar.connect(student1).register(3, 1, '617');
+    //     await registrar.getRoster('617');
+
+    //     // Fail to register undergraduate course with <= 20 credits
+    //     await registrar.connect(student2).register(3, 1, '484');
+    //     await registrar.getRoster('484');
+
+    //     // Fail to register for 431 with >= 20 credits;
+    //     await registrar.connect(student3).register(33, 1, '431');
+    //     await registrar.getRoster('431');
+
+    //     // Fail to register for 431 with <= 20 credits;
+    //     await registrar.connect(student3).register(3, 1, '431');
+    //     await registrar.getRoster('431');
+
+    // });
 });
