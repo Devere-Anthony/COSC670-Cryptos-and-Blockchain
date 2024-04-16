@@ -5,7 +5,7 @@ const main = async () => {
 
   console.log("-".repeat(50));
   console.log("CASE 1: Student registering for a course (successful)");
-  console.log("Before registration...")
+  console.log("\nBefore registration...")
   await registrar.getRoster('670');
   await registrar.connect(student1).register(21, 1, '670');
   await registrar.connect(student2).register(31, 1, '670');
@@ -15,13 +15,14 @@ const main = async () => {
 
   console.log("-".repeat(50));
   console.log("CASE 2: Student registering for a course (unsuccessful)");
-  console.log("Before registration...")
+  console.log("\nBefore registration...")
   await registrar.getRoster('617');
   console.log();
   await registrar.getRoster('431');
   console.log();
   await registrar.connect(student1).register(21, 1, '617');
   await registrar.connect(student3).register(21, 1, '431');
+  console.log();
   await registrar.getRoster('617');
   console.log();
   await registrar.getRoster('431');
@@ -29,7 +30,7 @@ const main = async () => {
 
   console.log("-".repeat(50));
   console.log("CASE 3: Owner adding a course (successful)");
-  console.log("Current courses:");
+  console.log("\nCurrent courses:");
   await registrar.printCourses();
   await registrar.addCourse('519', 1);
   console.log();
@@ -51,7 +52,7 @@ const main = async () => {
 
   console.log("-".repeat(50));
   console.log("CASE 6: Getting the roster for a course that exists with more than 0 students");
-  console.log("After adding 3 students to 617");
+  console.log("\nAfter adding 3 students to 617");
   await registrar.connect(student4).register(21, 1, '617');
   await registrar.connect(student5).register(40, 1, '617');
   await registrar.connect(student6).register(120, 1, '617');
@@ -63,6 +64,13 @@ const main = async () => {
   await registrar.getRoster('404');
   console.log();
   console.log("-".repeat(50));
+
+  // NOTE: Commented code below should fail with an error
+  // console.log("-".repeat(50));
+  // console.log("CASE 8: Student trying to add a course.");
+  // await registrar.connect(student1).addCourse('578', 1);
+  // console.log();
+  // console.log("-".repeat(50));
 };
 
 

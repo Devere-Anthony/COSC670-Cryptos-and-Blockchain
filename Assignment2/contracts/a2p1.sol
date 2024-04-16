@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
+// TODO: Need to swap some code out to add Events when ready to use as logging instead
+
 contract CSEnrollment {
 
 //==============================================================================
@@ -197,7 +199,6 @@ contract CSEnrollment {
         } else {
             return false;
         }
-        
     }
 
     function getStudents() public view {
@@ -209,7 +210,7 @@ contract CSEnrollment {
     }
 
     function tipOwner() public payable {
-        /** TU students, send me 💰, if you'd like! Pls n thx */
+        /** Send me 💰, if you'd like! */
         (bool success, ) = owner.call{value: msg.value}("");
         require(success);
     }
