@@ -4,11 +4,7 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract CareerFair {
-
-//==============================================================================
-// CONTRACT DATA
-//==============================================================================
-    address owner; 
+    address owner;
 
     struct Attendee {
         address studentAddress;
@@ -17,16 +13,13 @@ contract CareerFair {
     }
 
     Attendee[] attendees;
+    string[] companies;
 
-//==============================================================================
-// ESSENTIAL FUNCTIONS
-//==============================================================================
-    constructor () {
+    constructor() {
         owner = msg.sender;
     }
 
     function enroll() public {
-        // check if student if registered
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].studentAddress == msg.sender) {
                 console.log("Student already %s registered.", msg.sender);
@@ -34,13 +27,14 @@ contract CareerFair {
             }
         }
 
-        // create an Attendee 
-        attendees.push(Attendee({
-            studentAddress: msg.sender,
-            registered: true,
-            active: true
-        }));
-        
+        attendees.push(
+            Attendee({
+                studentAddress: msg.sender,
+                registered: true,
+                active: true
+            })
+        );
+
         console.log("Students %s added.", msg.sender);
     }
 
@@ -48,7 +42,7 @@ contract CareerFair {
         console.log("\nCareer Fair Attendees:");
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].registered == true) {
-            console.log("%s: %s", i+1, attendees[i].studentAddress);
+                console.log("%s: %s", i + 1, attendees[i].studentAddress);
             }
         }
     }
@@ -62,14 +56,36 @@ contract CareerFair {
         }
     }
 
+    function add(string memory companyName) public onlyOwner {
+        // add a company to the thing if it's not already in there
+        for (uint i = 0; i < companies.length; i++) {
+            if (compareStrings(companies[i], companyName)) {
+                console.log("%s already added.", companyName);
+                return;
+            }
+        }
+        companies.push(companyName);
+        console.log("%s added.", companyName);
+    }
 
+    function getCompanies() public view {
+        console.log("\nCompanies:");
+        for (uint i = 0; i < companies.length; i++) {
+            console.log("%s: %s", i + 1, companies[i]);
+        }
+    }
 
-//==============================================================================
-// HELPER FUNCTIONS
-//==============================================================================
-  modifier onlyOwner() {
+    modifier onlyOwner() {
         /** Function modifier that allows only the owner to execute function. */
         require(msg.sender == owner);
         _;
+    }
+
+    function compareStrings(string memory _a, string memory _b) private pure returns (bool) {
+        if (keccak256(abi.encodePacked(_a)) == keccak256(abi.encodePacked(_b))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
