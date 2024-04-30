@@ -24,13 +24,15 @@ describe("Deploy CareerFair Smart Contract", () => {
 
     it("Unenroll attendee.", async () => {
         const fair = await ethers.deployContract("CareerFair");
-        const [owner, student1, student2, student3] = await ethers.getSigners();
+        const [owner, student1, student2, student3, student4, student5] = await ethers.getSigners();
         await fair.connect(student1).enroll();
         await fair.connect(student2).enroll();
-        await fair.connect(student3).enroll();
+        // await fair.connect(student3).enroll();
         await fair.getAttendees();
         await fair.connect(student2).unenroll();
         await fair.connect(student3).unenroll();
+        await fair.connect(student4).unenroll();
+        await fair.connect(student5).unenroll();
         await fair.getAttendees();
     })
 
@@ -42,5 +44,4 @@ describe("Deploy CareerFair Smart Contract", () => {
         await fair.add("Amazon");
         await fair.getCompanies();
     })
-
 });

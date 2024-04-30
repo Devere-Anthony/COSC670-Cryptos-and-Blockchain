@@ -49,7 +49,7 @@ contract CareerFair {
 
     function unenroll() public {
         for (uint i = 0; i < attendees.length; i++) {
-            if (attendees[i].studentAddress == msg.sender) {
+            if (attendees[i].studentAddress == msg.sender && attendees[i].registered == true) {
                 attendees[i].registered = false;
                 console.log("\nStudent %s unenrolled.", msg.sender);
             }
@@ -76,7 +76,6 @@ contract CareerFair {
     }
 
     modifier onlyOwner() {
-        /** Function modifier that allows only the owner to execute function. */
         require(msg.sender == owner);
         _;
     }
