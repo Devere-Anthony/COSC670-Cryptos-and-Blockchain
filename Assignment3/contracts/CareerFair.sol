@@ -12,6 +12,7 @@ contract CareerFair {
         bool active;
     }
 
+    uint registeredCount = 0;
     Attendee[] attendees;
     string[] companies;
 
@@ -35,16 +36,23 @@ contract CareerFair {
             })
         );
 
+        registeredCount++;
+
         console.log("Students %s added.", msg.sender);
     }
 
-    function getAttendees() public view {
+    function getAttendees() public view returns(address[] memory) {
+        address[] memory addresses = new address[](registeredCount);
+
         console.log("\nCareer Fair Attendees:");
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].registered == true) {
                 console.log("%s: %s", i + 1, attendees[i].studentAddress);
+                addresses[i] = attendees[i].studentAddress;
             }
         }
+
+        return addresses;
     }
 
     function unenroll() public {
@@ -54,6 +62,8 @@ contract CareerFair {
                 console.log("\nStudent %s unenrolled.", msg.sender);
             }
         }
+
+        registeredCount--;
     }
 
     function add(string memory companyName) public onlyOwner {
@@ -68,11 +78,13 @@ contract CareerFair {
         console.log("%s added.", companyName);
     }
 
-    function getCompanies() public view {
+    function getCompanies() public view returns(string[] memory) {
         console.log("\nCompanies:");
         for (uint i = 0; i < companies.length; i++) {
             console.log("%s: %s", i + 1, companies[i]);
         }
+
+        return companies;
     }
 
     modifier onlyOwner() {
