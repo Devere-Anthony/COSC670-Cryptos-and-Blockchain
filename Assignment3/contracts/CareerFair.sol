@@ -12,9 +12,9 @@ contract CareerFair {
         bool active;
     }
 
-    uint registeredCount = 0;
     Attendee[] attendees;
     string[] companies;
+    address[] returnedAddresses;
 
     constructor() {
         owner = msg.sender;
@@ -23,8 +23,9 @@ contract CareerFair {
     function enroll() public {
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].studentAddress == msg.sender) {
-                console.log("Student already %s registered.", msg.sender);
-                return;
+                console.log("Student %s already registered.", msg.sender);
+                bool b = false;
+                require(b, "Student already enrolled");
             }
         }
 
@@ -36,34 +37,36 @@ contract CareerFair {
             })
         );
 
-        registeredCount++;
-
         console.log("Students %s added.", msg.sender);
+        updateAttendees();
     }
 
-    function getAttendees() public view returns(address[] memory) {
-        address[] memory addresses = new address[](registeredCount);
 
-        console.log("\nCareer Fair Attendees:");
+    function updateAttendees() internal {
+        delete returnedAddresses;
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].registered == true) {
-                console.log("%s: %s", i + 1, attendees[i].studentAddress);
-                addresses[i] = attendees[i].studentAddress;
+                returnedAddresses.push(attendees[i].studentAddress);
             }
         }
+    }
 
-        return addresses;
+    function getAttendees() public view returns (address[] memory) {
+        return returnedAddresses;
     }
 
     function unenroll() public {
+        require(attendees.length > 0, "No students enrolled.");
+
         for (uint i = 0; i < attendees.length; i++) {
-            if (attendees[i].studentAddress == msg.sender && attendees[i].registered == true) {
+            if (attendees[i].studentAddress == msg.sender) {
+                require(attendees[i].registered == true, "Student not already enrolled.");
                 attendees[i].registered = false;
                 console.log("\nStudent %s unenrolled.", msg.sender);
             }
         }
 
-        registeredCount--;
+        updateAttendees();
     }
 
     function add(string memory companyName) public onlyOwner {
