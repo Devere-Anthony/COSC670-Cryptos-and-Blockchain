@@ -24,9 +24,6 @@ contract CareerFair {
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].studentAddress == msg.sender) {
                 require(attendees[i].registered == false, "student already enrolled");
-                // console.log("Student %s already registered.", msg.sender);
-                // bool b = false;
-                // require(b, "Student already enrolled");
             }
         }
 
@@ -59,13 +56,18 @@ contract CareerFair {
     function unenroll() public {
         require(attendees.length > 0, "No students enrolled.");
 
+        bool exists;
+
         for (uint i = 0; i < attendees.length; i++) {
-            if (attendees[i].studentAddress == msg.sender) {
-                require(attendees[i].registered == true, "Student not already enrolled.");
+            if (attendees[i].studentAddress == msg.sender && attendees[i].registered == true) {
+                exists = true;
+                // require(attendees[i].registered == true, "Student not already enrolled.");
                 attendees[i].registered = false;
                 console.log("\nStudent %s unenrolled.", msg.sender);
-            }
+            } 
         }
+
+        require(exists, "Student doesn't exist or isn't registered already.");
 
         updateAttendees();
     }
