@@ -3,6 +3,7 @@ require("@nomicfoundation/hardhat-toolbox");
 const { vars } = require("hardhat/config");
 const ALCHEMY_API_KEY = vars.get("ALCHEMY_API_KEY");
 const SEPOLIA_PRIVATE_KEY = vars.get("SEPOLIA_PRIVATE_KEY");
+const SECOND_SEPOLIA_KEY = vars.get("SECOND_SEPOLIA_KEY");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [SEPOLIA_PRIVATE_KEY]
+      // accounts: [SECOND_SEPOLIA_KEY]
     },
   }
 };

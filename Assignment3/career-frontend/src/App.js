@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ethers } from 'ethers';
 
-const contractAddress = '0x03F7ED3128a80A3439A7B48d1F994f845641518d';
+const contractAddress = '0x0181a7faD641A43EcA2f3571FEA98A2bb93e0Eb2';
 
-const contractABI = {
+const contractABI ={
   "_format": "hh-sol-artifact-1",
   "contractName": "CareerFair",
   "sourceName": "contracts/CareerFair.sol",
@@ -74,11 +74,10 @@ const contractABI = {
 }
 
 
-
-
 function App() {
   const [signer, setSigner] = React.useState();
   const [provider, setProvider] = React.useState();
+  const [lastCompany, setLastCompany] = React.useState('');
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -123,13 +122,14 @@ function App() {
       const contract = new ethers.Contract(contractAddress, contractABI.abi, signer);
       const attendees = await contract.getAttendees();
 
-      if (attendees.length == 0) {
+      if (attendees.length === 0) {
         window.alert("No one is enrolled");
+      } else {
+        window.alert(`The follow students are enrolled: ${attendees}\n (See console)`);
+        console.log("Current Attendees:");
+        for (var i = 0; i < attendees.length; i++)
+          console.log(attendees[i]);
       }
-
-      console.log("Current Attendees:");
-      for (var i = 0; i < attendees.length; i++)
-        console.log(attendees[i]);
     } catch (error) {
       window.alert(error);
     }
@@ -148,6 +148,26 @@ function App() {
     }
   }
 
+  const AddCompany = async(event) => {
+    event.preventDefault();
+    // take data from textfield and then add it as argument for the addCompany guy
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(contractAddress, contractABI.abi, signer);
+      // await contract.add("Amazon");
+      // setLastCompany(event.target.value);
+      await contract.add(lastCompany);
+      window.alert(`Owner added company: ${lastCompany}`);
+    } catch (error) {
+      window.alert("Only the owner can add a company.")
+    }
+  }
+
+  const handleCompanyInput = (event) => {
+    setLastCompany(event.target.value);
+  };
+
   return (
     <>
       {/* TODO: Figure out how TF to toggle this after connecting*/}
@@ -159,9 +179,9 @@ function App() {
       <br />
       <button onClick={GetAttendees}>See Attendees</button>
       <br />
-      <form>
-        <button>Add Company</button>
-        <input></input>
+      <form onSubmit={AddCompany}>
+        <button type='submit'>Add Company</button>
+        <input type='text' onChange={handleCompanyInput}></input>
       </form>
     </>
   );
