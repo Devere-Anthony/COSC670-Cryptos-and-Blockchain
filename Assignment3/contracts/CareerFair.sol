@@ -23,9 +23,10 @@ contract CareerFair {
     function enroll() public {
         for (uint i = 0; i < attendees.length; i++) {
             if (attendees[i].studentAddress == msg.sender) {
-                console.log("Student %s already registered.", msg.sender);
-                bool b = false;
-                require(b, "Student already enrolled");
+                require(attendees[i].registered == false, "student already enrolled");
+                // console.log("Student %s already registered.", msg.sender);
+                // bool b = false;
+                // require(b, "Student already enrolled");
             }
         }
 
