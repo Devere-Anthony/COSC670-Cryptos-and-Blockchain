@@ -75,17 +75,17 @@ const contractABI ={
 
 
 function App() {
-  const [signer, setSigner] = React.useState();
   const [provider, setProvider] = React.useState();
   const [lastCompany, setLastCompany] = React.useState('');
+  const [walletButton, setWalletButton] = React.useState(true);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       if (window.ethereum) {
         setProvider(new ethers.BrowserProvider(window.ethereum));
-        // getCurrentAd()
+        console.log("ETH wallet detected");
       } else {
-        console.error("Please install MetaMask!");
+        console.error("No ETH Wallet Detected");
       }
     }
   }, []);
@@ -96,6 +96,7 @@ function App() {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       window.alert(`${signer.address} successfully connected!`);
+      setWalletButton(false);
     } catch (error) {
       window.alert("Wallet could not be connected.");
     }
@@ -170,8 +171,9 @@ function App() {
 
   return (
     <>
-      {/* TODO: Figure out how TF to toggle this after connecting*/}
+      {walletButton === true && 
       <button onClick={ConnectWallet}>Connect Wallet</button>
+      }
       <br />
       <button onClick={Enroll}>Enroll</button>
       <br />
