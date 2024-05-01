@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ethers } from 'ethers';
 
-const contractAddress = '0x0181a7faD641A43EcA2f3571FEA98A2bb93e0Eb2';
+const contractAddress = '0x9529e32595cDBFAc7ee4CC4C6620274a2F223ff3';
 
-const contractABI ={
+const contractABI = {
   "_format": "hh-sol-artifact-1",
   "contractName": "CareerFair",
   "sourceName": "contracts/CareerFair.sol",
@@ -72,6 +72,7 @@ const contractABI ={
   "linkReferences": {},
   "deployedLinkReferences": {}
 }
+
 
 
 function App() {
@@ -145,7 +146,7 @@ function App() {
       await contract.unenroll();
       window.alert(`${signer.address} successfully unenrolled.`);
     } catch (error) {
-      window.alert("Student not already enrolled.");
+      window.alert("You are not enrolled in the career fair.");
     }
   }
 
